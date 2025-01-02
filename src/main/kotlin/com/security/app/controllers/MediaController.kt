@@ -2,16 +2,21 @@ package com.security.app.controllers
 
 import com.security.app.entities.Media
 import com.security.app.model.MediaType
+import com.security.app.model.Message
 import com.security.app.services.MediaService
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/api/v1/media")
 class MediaController(private val mediaService: MediaService) {
+
+    @PostMapping("/upload")
+    fun uploadMedia(@RequestParam("file") file: MultipartFile, @RequestParam("mediaType") mediaTypeStr: String) : ResponseEntity<Message<Any>> {
+        val media = mediaService.uploadMedia(file, mediaTypeStr)
+        return ResponseEntity.ok(Message.Success("Media uploaded successfully", media))
+    }
 
     @GetMapping("/{mediaId}")
     fun getMediaById(@PathVariable mediaId: String) : ResponseEntity<Media> {

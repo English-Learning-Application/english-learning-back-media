@@ -11,6 +11,8 @@ services:
       MODE: ${MODE}
       JWT_SECRET: ${JWT_SECRET}
       JWT_ISSUER: ${SECRET_ISSUER}
+      GCP_STORAGE_NAME: ${GCP_STORAGE_NAME}
+      GCP_SERVICE_KEY: ${GCP_SERVICE_KEY}
     ports:
       - ${APP_PORT}
 

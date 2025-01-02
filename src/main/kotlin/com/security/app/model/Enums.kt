@@ -11,4 +11,13 @@ enum class MediaType(val value: String) {
             return entries.first { it.value == value }
         }
     }
+
+    fun getStorageFolder(): String {
+        return when(this) {
+            IMAGE -> "images"
+            VIDEO -> "videos"
+            AUDIO -> "audios"
+            DOCUMENT -> "documents"
+        }
+    }
 }
