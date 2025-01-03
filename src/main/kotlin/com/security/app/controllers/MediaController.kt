@@ -15,7 +15,16 @@ class MediaController(private val mediaService: MediaService) {
     @PostMapping("/upload")
     fun uploadMedia(@RequestParam("file") file: MultipartFile, @RequestParam("mediaType") mediaTypeStr: String) : ResponseEntity<Message<Any>> {
         val media = mediaService.uploadMedia(file, mediaTypeStr)
+        if(media == null) {
+            return ResponseEntity.badRequest().body(Message.Error("Failed to upload media", 400))
+        }
         return ResponseEntity.ok(Message.Success("Media uploaded successfully", media))
+    }
+
+    @DeleteMapping("/{mediaId}")
+    fun deleteMediaById(@PathVariable mediaId: String) : ResponseEntity<Message<Any?>> {
+        mediaService.deleteMediaById(mediaId)
+        return ResponseEntity.ok(Message.Success("Media deleted successfully", null))
     }
 
     @GetMapping("/{mediaId}")
