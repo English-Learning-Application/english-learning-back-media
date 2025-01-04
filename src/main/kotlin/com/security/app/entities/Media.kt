@@ -7,6 +7,7 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.LocalDateTime
+import java.util.UUID
 
 @Entity
 @Setter
@@ -21,7 +22,7 @@ import java.time.LocalDateTime
 class Media {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    var mediaId: String = ""
+    lateinit var mediaId: UUID
 
     @Column(nullable = false)
     var mediaUrl: String = ""
