@@ -15,8 +15,10 @@ spec:
         app: media-service
     spec:
       containers:
-        - image: "761018889743.dkr.ecr.ap-southeast-2.amazonaws.com/media-service-repo:latest"
-          name: media-service-container
+        - image: "761018889743.dkr.ecr.ap-southeast-2.amazonaws.com/media-microservice:latest"
+          name: media-microservice
+          ports:
+            - containerPort: 8080
           imagePullPolicy: IfNotPresent
           env:
             - name: MODE
@@ -56,9 +58,9 @@ spec:
                   key: DB_PASSWORD
             - name: DB_USER
               valueFrom:
-                  secretKeyRef:
-                    name: media-service-secret
-                    key: DB_USER
+                secretKeyRef:
+                  name: media-service-secret
+                  key: DB_USER
             - name: DB_HOST
               valueFrom:
                 secretKeyRef:
@@ -88,4 +90,4 @@ spec:
     - protocol: TCP
       port: 8081
       targetPort: 8080
-  type: ClusterIP
+  type: NodePort
