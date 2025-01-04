@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.util.StringUtils
 import org.springframework.web.multipart.MultipartFile
+import java.util.UUID
 
 
 @Service
@@ -39,7 +40,7 @@ class MediaService(private val mediaRepository: MediaRepository, private val aws
         return result
     }
 
-    fun getMediaById(mediaId: String): Media? {
+    fun getMediaById(mediaId: UUID): Media? {
         return mediaRepository.findByMediaId(mediaId)
     }
 
@@ -52,7 +53,7 @@ class MediaService(private val mediaRepository: MediaRepository, private val aws
     }
 
     @Transactional
-    fun deleteMediaById(mediaId: String) {
+    fun deleteMediaById(mediaId: UUID) {
         val media = mediaRepository.findByMediaId(mediaId)
         media?.let {
             awsStorageService.deleteFile(bucketName, it.mediaUrl)

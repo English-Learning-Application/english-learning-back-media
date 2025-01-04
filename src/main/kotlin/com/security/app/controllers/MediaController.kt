@@ -7,6 +7,7 @@ import com.security.app.services.MediaService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
+import java.util.*
 
 @RestController
 @RequestMapping("/api/v1/media")
@@ -23,13 +24,13 @@ class MediaController(private val mediaService: MediaService) {
 
     @DeleteMapping("/{mediaId}")
     fun deleteMediaById(@PathVariable mediaId: String) : ResponseEntity<Message<Any?>> {
-        mediaService.deleteMediaById(mediaId)
+        mediaService.deleteMediaById(UUID.fromString(mediaId))
         return ResponseEntity.ok(Message.Success("Media deleted successfully", null))
     }
 
     @GetMapping("/{mediaId}")
     fun getMediaById(@PathVariable mediaId: String) : ResponseEntity<Media> {
-        val media = mediaService.getMediaById(mediaId)
+        val media = mediaService.getMediaById(UUID.fromString(mediaId))
 
         return if (media != null) {
             ResponseEntity.ok(media)
