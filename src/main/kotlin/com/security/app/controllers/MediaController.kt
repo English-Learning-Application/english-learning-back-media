@@ -29,36 +29,36 @@ class MediaController(private val mediaService: MediaService) {
     }
 
     @GetMapping("/{mediaId}")
-    fun getMediaById(@PathVariable mediaId: String) : ResponseEntity<Media> {
-        val media = mediaService.getMediaById(UUID.fromString(mediaId))
+    fun getMediaById(@PathVariable mediaId: String) : ResponseEntity<Message<Any?>> {
+        val mediaItem = mediaService.getMediaById(UUID.fromString(mediaId))
 
-        return if (media != null) {
-            ResponseEntity.ok(media)
+        if(mediaItem != null) {
+            return ResponseEntity.ok(Message.Success("Media found", mediaItem))
         } else {
-            ResponseEntity.notFound().build()
+            return ResponseEntity.badRequest().body(Message.NotFound("Media not found"))
         }
     }
 
     @GetMapping("/url/{mediaUrl}")
-    fun getMediaByUrl(@PathVariable mediaUrl: String) : ResponseEntity<Media> {
+    fun getMediaByUrl(@PathVariable mediaUrl: String) : ResponseEntity<Message<Any?>> {
         val media = mediaService.getMediaByUrl(mediaUrl)
 
         return if (media != null) {
-            ResponseEntity.ok(media)
+            ResponseEntity.ok(Message.Success("Media found", media))
         } else {
-            ResponseEntity.notFound().build()
+            ResponseEntity.badRequest().body(Message.NotFound("Media not found"))
         }
     }
 
     @GetMapping("/type/{mediaType}")
-    fun getMediaByType(@PathVariable mediaType: String) : ResponseEntity<List<Media>> {
+    fun getMediaByType(@PathVariable mediaType: String) : ResponseEntity<Message<Any?>> {
         val mediaTypeEnum = MediaType.fromStringValue(mediaType)
         val media = mediaService.getMediaByType(mediaTypeEnum)
 
         return if (media.isNotEmpty()) {
-            ResponseEntity.ok(media)
+            ResponseEntity.ok(Message.Success("Media found", media))
         } else {
-            ResponseEntity.notFound().build()
+            ResponseEntity.badRequest().body(Message.NotFound("Media not found"))
         }
     }
 }

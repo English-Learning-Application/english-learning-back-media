@@ -9,10 +9,5 @@ import org.springframework.boot.runApplication
 class AppApplication
 
 fun main(args: Array<String>) {
-	println("DB_HOST = ${System.getenv("DB_HOST")}")
-	println("DB_PORT = ${System.getenv("DB_PORT")}")
-	println("DB_NAME = ${System.getenv("DB_NAME")}")
-	println("DB_USER = ${System.getenv("DB_USER")}")
-	println("DB_PASSWORD = ${System.getenv("DB_PASSWORD")}")
 	runApplication<AppApplication>(*args)
 }

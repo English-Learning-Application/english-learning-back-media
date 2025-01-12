@@ -19,7 +19,7 @@ spec:
           name: media-microservice
           ports:
             - containerPort: 8080
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           env:
             - name: MODE
               valueFrom:
@@ -88,6 +88,6 @@ spec:
     app: media-service
   ports:
     - protocol: TCP
-      port: 8081
+      port: 8080
       targetPort: 8080
   type: NodePort
