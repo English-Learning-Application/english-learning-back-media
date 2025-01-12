@@ -2,12 +2,16 @@ package com.security.app.services
 
 import com.amazonaws.services.s3.AmazonS3
 import com.amazonaws.services.s3.model.ObjectMetadata
+import com.security.app.utils.EncryptionUtils
 import org.springframework.stereotype.Service
 import java.io.InputStream
+import javax.crypto.SecretKey
 
 
 @Service
 class AwsStorageService(private val awsS3Client: AmazonS3) {
+    private val secretKey: SecretKey = EncryptionUtils.generateKey()
+
     fun uploadFile(
         bucketName: String?,
         keyName: String?,
@@ -19,8 +23,11 @@ class AwsStorageService(private val awsS3Client: AmazonS3) {
         metadata.contentLength = contentLength!!
         metadata.contentType = contentType
 
-        awsS3Client.putObject(bucketName, keyName, value, metadata)
-        val url = awsS3Client.getUrl(bucketName, keyName)
+        /// Encode the keyName to avoid special characters
+        val encryptedKey = EncryptionUtils.encrypt(keyName!!, secretKey)
+
+        awsS3Client.putObject(bucketName, encryptedKey, value, metadata)
+        val url = awsS3Client.getUrl(bucketName, encryptedKey)
         return url.path
     }
 
