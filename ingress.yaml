@@ -39,6 +39,20 @@ spec:
                 name: course-cluster-ip-service
                 port:
                   number: 8082
+          - path: /api/v1/learning-content/
+            pathType: Prefix
+            backend:
+              service:
+                name: course-cluster-ip-service
+                port:
+                  number: 8082
+          - path: /api/v1/exercises/
+            pathType: Prefix
+            backend:
+              service:
+                name: exercise-cluster-ip-service
+                port:
+                  number: 8083
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -67,4 +81,11 @@ spec:
                   name: user-cluster-ip-service
                   port:
                     number: 8081
+            - path: /api/v1/learning-content/
+              pathType: Prefix
+              backend:
+                service:
+                  name: course-cluster-ip-service
+                  port:
+                    number: 8082
 
