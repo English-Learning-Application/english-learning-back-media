@@ -81,11 +81,17 @@ spec:
                   name: user-cluster-ip-service
                   port:
                     number: 8081
-            - path: /api/v1/learning-content/
+            - path: /api/v1/courses/
               pathType: Prefix
               backend:
                 service:
                   name: course-cluster-ip-service
                   port:
                     number: 8082
-
+            - path: /api/v1/notifications/
+              pathType: Prefix
+              backend:
+                service:
+                  name: notification-cluster-ip-service
+                  port:
+                    number: 8084
