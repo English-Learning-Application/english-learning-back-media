@@ -40,6 +40,20 @@ class MediaService(private val mediaRepository: MediaRepository, private val aws
         return result
     }
 
+    @Transactional
+    fun updateMedia(mediaId: String, file: MultipartFile, mediaTypeStr: String): Media? {
+        var media: Media? = null
+        if(mediaId.isNotEmpty()) {
+            media = mediaRepository.findByMediaId(UUID.fromString(mediaId))?: return null
+        }
+
+        media?.let {
+            awsStorageService.deleteFile(bucketName, it.mediaUrl)
+        }
+
+        return uploadMedia(file, mediaTypeStr)
+    }
+
     fun getMediaById(mediaId: UUID): Media? {
         return mediaRepository.findByMediaId(mediaId)
     }

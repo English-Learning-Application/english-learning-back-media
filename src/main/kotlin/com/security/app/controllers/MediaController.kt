@@ -22,6 +22,20 @@ class MediaController(private val mediaService: MediaService) {
         return ResponseEntity.ok(Message.Success("Media uploaded successfully", media))
     }
 
+    @PutMapping("/{mediaId}")
+    fun updateMedia(
+        @PathVariable mediaId: String,
+        @RequestParam("file") file: MultipartFile,
+        @RequestParam("mediaType") mediaTypeStr: String
+    ) : ResponseEntity<Message<Any?>> {
+        val media = mediaService.updateMedia(mediaId, file, mediaTypeStr)
+        return if(media != null) {
+            ResponseEntity.ok(Message.Success("Media updated successfully", media))
+        } else {
+            ResponseEntity.badRequest().body(Message.Error("Failed to update media", 400))
+        }
+    }
+
     @DeleteMapping("/{mediaId}")
     fun deleteMediaById(@PathVariable mediaId: String) : ResponseEntity<Message<Any?>> {
         mediaService.deleteMediaById(UUID.fromString(mediaId))
