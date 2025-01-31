@@ -53,6 +53,20 @@ spec:
                 name: exercise-cluster-ip-service
                 port:
                   number: 8083
+          - path: /api/v1/subscriptions/
+            pathType: Prefix
+            backend:
+              service:
+                name: subscription-cluster-ip-service
+                port:
+                  number: 8087
+          - path: /api/v1/payments/
+            pathType: Prefix
+            backend:
+              service:
+                name: subscription-cluster-ip-service
+                port:
+                  number: 8087
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -75,6 +89,13 @@ spec:
                   port:
                     number: 8080
             - path: /api/v1/profile/
+              pathType: Prefix
+              backend:
+                service:
+                  name: user-cluster-ip-service
+                  port:
+                    number: 8081
+            - path: /api/internal/
               pathType: Prefix
               backend:
                 service:
