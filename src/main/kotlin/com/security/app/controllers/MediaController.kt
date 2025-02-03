@@ -1,6 +1,7 @@
 package com.security.app.controllers
 
 import com.security.app.entities.Media
+import com.security.app.model.ListMessage
 import com.security.app.model.MediaType
 import com.security.app.model.Message
 import com.security.app.services.MediaService
@@ -50,6 +51,19 @@ class MediaController(private val mediaService: MediaService) {
             return ResponseEntity.ok(Message.Success("Media found", mediaItem))
         } else {
             return ResponseEntity.badRequest().body(Message.NotFound("Media not found"))
+        }
+    }
+
+    @GetMapping("/query")
+    fun getMediaByQuery(
+        @RequestParam("q") query: List<String>
+    ) : ResponseEntity<ListMessage<Any?>> {
+        val media = mediaService.getMediaByQuery(query)
+
+        return if (media.isNotEmpty()) {
+            ResponseEntity.ok(ListMessage.Success("Media found", media))
+        } else {
+            ResponseEntity.badRequest().body(ListMessage.NotFound("Media not found"))
         }
     }
 

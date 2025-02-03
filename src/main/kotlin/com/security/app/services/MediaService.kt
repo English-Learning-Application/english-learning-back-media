@@ -3,6 +3,7 @@ package com.security.app.services
 import com.security.app.entities.Media
 import com.security.app.model.MediaType
 import com.security.app.repositories.MediaRepository
+import com.security.app.utils.toUUID
 import jakarta.transaction.Transactional
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -64,6 +65,10 @@ class MediaService(private val mediaRepository: MediaRepository, private val aws
 
     fun getMediaByType(mediaType: MediaType): List<Media> {
         return mediaRepository.findByMediaType(mediaType)
+    }
+
+    fun getMediaByQuery(query: List<String>): List<Media> {
+        return mediaRepository.findAllByMediaIdIn(query.map { it.toUUID() })
     }
 
     @Transactional

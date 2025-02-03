@@ -10,4 +10,5 @@ interface MediaRepository : JpaRepository<Media, String> {
     fun findByMediaUrl(mediaUrl: String): Media?
     fun findByMediaType(mediaType: MediaType): List<Media>
     fun deleteByMediaId(mediaId: UUID)
+    fun findAllByMediaIdIn(mediaIds: List<UUID>): List<Media>
 }
