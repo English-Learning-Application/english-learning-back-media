@@ -102,6 +102,13 @@ spec:
                 name: community-cluster-ip-service
                 port:
                   number: 8089
+          - path: /api/v1/achievement/
+            pathType: Prefix
+            backend:
+              service:
+                name: achievement-cluster-ip-service
+                port:
+                  number: 8086
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -158,3 +165,10 @@ spec:
                   name: community-cluster-ip-service
                   port:
                     number: 8089
+            - path: /api/internal/achievements/
+              pathType: Prefix
+              backend:
+                service:
+                  name: achievement-cluster-ip-service
+                  port:
+                    number: 8086
