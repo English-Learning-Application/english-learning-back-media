@@ -46,7 +46,7 @@ spec:
                 name: user-cluster-ip-service
                 port:
                   number: 8081
-          - path: /api/v1/courses/
+          - path: /api/v1/course/
             pathType: Prefix
             backend:
               service:
